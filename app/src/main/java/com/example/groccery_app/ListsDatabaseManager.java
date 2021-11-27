@@ -6,16 +6,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import static com.example.groccery_app.ListsDatabaseHelper.KEY_TITLE;
 import static com.example.groccery_app.ListsDatabaseHelper.TABLE_LIST_ITEMS;
-import static com.example.groccery_app.ListsDatabaseHelper.KEY_PRODUCT_ID;
+import static com.example.groccery_app.ListsDatabaseHelper.KEY_ID;
 import static com.example.groccery_app.ListsDatabaseHelper.KEY_PRODUCT_NAME;
 import static com.example.groccery_app.ListsDatabaseHelper.KEY_BUY_STATUS;
-import static com.example.groccery_app.ListsDatabaseHelper.KEY_PRODUCT_LID;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /*****************************************************************************************
@@ -41,9 +39,15 @@ public class ListsDatabaseManager
 
     }
 
-    public ListsDatabaseManager open() throws SQLException {
+    public ListsDatabaseManager openw() throws SQLException {
         ListdbHelper = new ListsDatabaseHelper(context);
         database = ListdbHelper.getWritableDatabase();
+        return this;
+    }
+
+    public ListsDatabaseManager openr() throws SQLException {
+        ListdbHelper = new ListsDatabaseHelper(context);
+        database = ListdbHelper.getReadableDatabase();
         return this;
     }
 
@@ -51,71 +55,83 @@ public class ListsDatabaseManager
         ListdbHelper.close();
     }
 
-    //todo:add CURD operations for groceryListDb table
-
     // add the new item in task
-    void addTask(ListItem listItem) {
-
+    long addListItem(ListItem listItem) {
+        openw();
         ContentValues values = new ContentValues();
-        values.put(KEY_PRODUCT_ID, listItem.getItemId()); // Task Name
-        values.put(KEY_PRODUCT_NAME, listItem.getName()); // Task Phone
-        values.put(KEY_BUY_STATUS, listItem.getBought()); // Task Name
-        values.put(KEY_PRODUCT_LID, listItem.getProductListId()); // Task Name
-
+        values.put(KEY_PRODUCT_NAME, listItem.get_name()); // item Name
+        values.put(KEY_BUY_STATUS, listItem.get_bought()); // Item buy status
         // Inserting Row
-        database.insert(TABLE_LIST_ITEMS, null, values);
+        long ID = database.insert(TABLE_LIST_ITEMS, null, values);
+        return ID;
         //2nd argument is String containing nullColumnHack
 
     }
 
 
     ListItem getListIem(int id) {
+        openr();
 
-        Cursor cursor = database.query(TABLE_LIST_ITEMS, new String[] { KEY_PRODUCT_ID,
-                        KEY_PRODUCT_NAME, KEY_BUY_STATUS, KEY_PRODUCT_LID }, KEY_PRODUCT_ID + "=?",
+
+        Cursor cursor = database.query(TABLE_LIST_ITEMS, new String[] { KEY_ID,
+                        KEY_PRODUCT_NAME, KEY_BUY_STATUS }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
+        return new ListItem(
+                cursor.getInt(0), cursor.getString(1), cursor.getString(2));
 
-        ListItem listItem = new ListItem(
-                cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4));
-        // return task
-        return listItem;
     }
 
-    // code to get all tasks in a list view
-    public Cursor getAllItems() {
+    // code to get all items in a list view
+    public List<ListItem> getAllItems() {
+        openr();
+        //make a new array list
+        List<ListItem> allItems = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_LIST_ITEMS;
 
-        Cursor itemlist = database.rawQuery(selectQuery, null);
+        Cursor cursor = database.rawQuery(selectQuery, null);
 
-        return itemlist;
+        if(cursor.moveToFirst()){
+            do{
+                ListItem item = new ListItem();
+                item.setID(Integer.parseInt(cursor.getString(0)));
+                item.set_name(cursor.getString(1));
+                item.set_bought(cursor.getString(2));
+                allItems.add(item);
+            }while (cursor.moveToNext());
+        }
+
+
+        return allItems;
     }
 
     // code to update the single task
     public int updateItem(ListItem listItem) {
 
+        openw();
+
         ContentValues values = new ContentValues();
-        values.put(KEY_PRODUCT_NAME, listItem.getName());
-        values.put(KEY_BUY_STATUS, listItem.getBought());
-        values.put(KEY_PRODUCT_LID, listItem.getProductListId());
+        values.put(KEY_PRODUCT_NAME, listItem.get_name());
+        values.put(KEY_BUY_STATUS, listItem.get_bought());
 
         // updating row
-        return database.update(TABLE_LIST_ITEMS, values, KEY_PRODUCT_ID + " = ?",
-                new String[] { String.valueOf(listItem.getItemId()) });
+        return database.update(TABLE_LIST_ITEMS, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(listItem.getID()) });
     }
 
     // Deleting single item
     public void deleteTask(ListItem listItem) {
 
-        database.delete(TABLE_LIST_ITEMS, KEY_PRODUCT_ID + " = ?",
-                new String[] { String.valueOf(listItem.getItemId()) });
+        database.delete(TABLE_LIST_ITEMS, KEY_ID + " = ?",
+                new String[] { String.valueOf(listItem.getID()) });
         database.close();
     }
 
     // Getting item Count
     public int getItemCount() {
+        openr();
         String countQuery = "SELECT  * FROM " + TABLE_LIST_ITEMS;
         Cursor cursor = database.rawQuery(countQuery, null);
         cursor.close();

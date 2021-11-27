@@ -1,10 +1,13 @@
 package com.example.groccery_app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,14 +18,15 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-    List<String> titles;
-    List<Integer> images;
-    LayoutInflater inflater;
+    private List<ListItem> lists;
+    private LayoutInflater inflater;
+    private Activity context;
+    int gPosition = -1;
 
-    public Adapter(Context ctx, List<String> titles, List<Integer> imgaes){
-        this.titles = titles;
-        this.images = imgaes;
+    public Adapter(Activity ctx, List<ListItem> lists) {
+        this.lists = lists;
         this.inflater = LayoutInflater.from(ctx);
+        this.context = ctx;
     }
 
     @NonNull
@@ -34,34 +38,40 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText(titles.get(position));
-        holder.gridIcon.setImageResource(images.get(position));
+        gPosition = holder.getPosition();
+        String title = lists.get(position).get_name();
+        String status = lists.get(position).get_bought();
+        holder.nTitle.setText(title);
+//        holder.nStatus.setChecked(status == "true" ? true : false);
     }
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return lists.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView title;
-        ImageView gridIcon;
-
+        TextView nTitle;
+        CheckBox nStatus;
 
         public ViewHolder (@NonNull View itemView){
             super(itemView);
-            title = itemView.findViewById(R.id.List_name);
-            gridIcon = itemView.findViewById(R.id.Emoji_view);
+            nTitle = itemView.findViewById(R.id.List_name);
+//            nStatus = itemView.findViewById(R.id.checkBox);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TOdo: add intent to open sub view
+                    if(nStatus.isChecked())
+                    {
+
+                    }
                 }
             });
 
         }
+
 
     }
 

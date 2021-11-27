@@ -1,13 +1,22 @@
 package com.example.groccery_app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,45 +24,76 @@ import java.util.List;
 public class Grid extends AppCompatActivity {
 
     RecyclerView dataList;
-    List<String> titles;
-    List<Integer> images;
     Adapter adapter;
     Toolbar toolbar;
+    TextView noItemsText;
+    ListsDatabaseManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().hide();
 
         setContentView(R.layout.activity_grid);
-
-
-        dataList = findViewById(R.id.dataList);
+        //code for toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        titles = new ArrayList<>();
-        images = new ArrayList<>();
+        //initialise db
+        db = new ListsDatabaseManager(this);
 
-        titles.add("First Item");
-        titles.add("Second Item");
-        titles.add("Third Item");
-        titles.add("Fourth  Item");
+        //create List of items
+        List<ListItem> allitems = db.getAllItems();
 
+        //Declare Recycle View
+        dataList = findViewById(R.id.dataList);
 
-        images.add(R.drawable.ic_baseline_android_24);
-        images.add(R.drawable.ic_baseline_android_24);
-        images.add(R.drawable.ic_baseline_android_24);
-        images.add(R.drawable.ic_baseline_android_24);
+        //text for when list is empty
+        noItemsText = findViewById(R.id.noItemsText);
+        if(allitems.isEmpty()){
+            noItemsText.setVisibility(View.VISIBLE);
+        }else {
+            noItemsText.setVisibility(View.GONE);
+            displayList(allitems);
+        }
 
+    }
 
-        adapter = new Adapter(this, titles,images);
+    private void displayList(List<ListItem> allitems) {
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2, GridLayoutManager.VERTICAL,false);
-        dataList.setLayoutManager(gridLayoutManager);
+        dataList.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new Adapter(this, allitems );
         dataList.setAdapter(adapter);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.add){
+            Intent i = new Intent (this,addItem.class);
+            startActivity(i);
+            Toast.makeText(this, "add btn is clicked",Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<ListItem> getAllLists = db.getAllItems();
+        if(getAllLists.isEmpty()){
+            noItemsText.setVisibility(View.VISIBLE);
+        }else {
+            noItemsText.setVisibility(View.GONE);
+            displayList(getAllLists);
+        }
+
 
     }
 }

@@ -10,10 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Groccery_App">
         <activity
-            android:name=".newList"
-            android:exported="false" />
-        <activity
-            android:name=".Grid_sub_view"
+            android:name=".addItem"
             android:exported="false" />
         <activity
             android:name=".Grid"

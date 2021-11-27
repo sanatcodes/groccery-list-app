@@ -2,59 +2,61 @@ package com.example.groccery_app;
 
 public class ListItem {
 
-    private int itemId;
-    private String name;
-    private int bought;
-    private int productListId;
+    private int _id;
+    private String _name;
+    private String _bought;
 
 
-    //empty Constructor
+
+    //constructor
+    ListItem(String name, String bought) {
+        this._name = name;
+        this._bought = bought;
+    }
+
+    ListItem(int ID, String name, String bought) {
+        this._id = ID;
+        this._name = name;
+        this._bought = bought;
+    }
+
+    ListItem( String name){
+        this._name = name;
+        this._bought = "False";
+    }
+
     ListItem(){
 
     }
 
-    //constructor
-    ListItem(int itemId, String name, int bought, int productListId){
-        this.itemId = itemId;
-        this.name = name;
-        this.bought = bought;
-        this.productListId = productListId;
+
+    public int getID() {
+        return _id;
     }
 
-
-
-    //getters and setters
-    public int getItemId() {
-        return itemId;
+    public void setID(int _id) {
+        this._id = _id;
     }
 
-    public String getName() {
-        return name;
+    public String get_name() {
+        return _name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void set_name(String _name) {
+        this._name = _name;
     }
 
-    public int getBought() {
-        return bought;
+    public String get_bought() {
+        return _bought;
     }
 
-    public int getProductListId() {
-        return productListId;
-    }
-
-    public void setBought(int bought) {
-        this.bought = bought;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-
-
-
-    public void setProductListId(int itemListId) {
-        this.productListId = productListId;
+    public void set_bought(String _bought) {
+        this._bought = _bought;
     }
 }
+
+
+
+
+
+
