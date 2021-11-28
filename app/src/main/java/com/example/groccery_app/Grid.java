@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +29,7 @@ public class Grid extends AppCompatActivity {
     Toolbar toolbar;
     TextView noItemsText;
     ListsDatabaseManager db;
+    List<ListItem> allitems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class Grid extends AppCompatActivity {
         db = new ListsDatabaseManager(this);
 
         //create List of items
-        List<ListItem> allitems = db.getAllItems();
+        allitems = db.getAllItems();
 
         //Declare Recycle View
         dataList = findViewById(R.id.dataList);
@@ -60,9 +62,12 @@ public class Grid extends AppCompatActivity {
 
     private void displayList(List<ListItem> allitems) {
 
-        dataList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Adapter(this, allitems );
         dataList.setAdapter(adapter);
+        dataList.setLayoutManager(new LinearLayoutManager(this));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+        itemTouchHelper.attachToRecyclerView(dataList);
+        adapter = new Adapter(this, allitems );
+
 
     }
 
@@ -82,6 +87,9 @@ public class Grid extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
     @Override
     protected void onResume() {

@@ -2,6 +2,7 @@ package com.example.groccery_app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private LayoutInflater inflater;
     private Activity context;
     int gPosition = -1;
+    ListsDatabaseManager db = new ListsDatabaseManager(context);
 
     public Adapter(Activity ctx, List<ListItem> lists) {
         this.lists = lists;
@@ -50,6 +52,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return lists.size();
     }
 
+    public void deleteItem(int position) {
+//        ListItem mRecentlyDeletedItem = lists.get(position);
+//        int mRecentlyDeletedItemPosition = position;
+//        lists.remove(position);
+//        notifyItemRemoved(position);
+//        showUndoSnackbar();
+        //delete list item at this position
+        ListItem itemToBeDeleted = lists.get(position);
+        db.deleteTask(itemToBeDeleted);
+
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView nTitle;
@@ -60,15 +74,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             nTitle = itemView.findViewById(R.id.List_name);
 //            nStatus = itemView.findViewById(R.id.checkBox);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(nStatus.isChecked())
-                    {
-
-                    }
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent i = new Intent(v.getContext(),Detail.class);
+//                    i.putExtra("ID",lists.get(getAdapterPosition()).getID());
+//                    v.getContext().startActivity(i);
+//                }
+//            });
 
         }
 

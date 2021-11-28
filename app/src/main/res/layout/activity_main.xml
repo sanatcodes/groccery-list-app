@@ -59,5 +59,15 @@
         android:layout_marginEnd="158dp"
         android:text="Skip Login" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/test_btn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="158dp"
+        android:text="see nearby stores" />
+
 
 </RelativeLayout>

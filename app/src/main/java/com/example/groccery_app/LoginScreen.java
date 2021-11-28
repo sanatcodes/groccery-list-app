@@ -13,6 +13,8 @@ import com.google.android.material.button.MaterialButton;
 
 public class LoginScreen extends AppCompatActivity {
 
+    Button findStoresBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,7 @@ public class LoginScreen extends AppCompatActivity {
 
         MaterialButton loginbtn = (MaterialButton) findViewById(R.id.loginbtn);
         Button test_btn = (Button) findViewById(R.id.test_btn);
+        Button findStoresBtn = (Button) findViewById(R.id.button);
 
         loginbtn.setOnClickListener(new View.OnClickListener(){
 
@@ -48,6 +51,13 @@ public class LoginScreen extends AppCompatActivity {
             }
         });
 
+        findStoresBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Open Finding Stores",Toast.LENGTH_SHORT).show();
+                openFindStores();
+            }
+        });
 
 
     }
@@ -56,4 +66,11 @@ public class LoginScreen extends AppCompatActivity {
         Intent intent = new Intent(this, Grid.class);
         startActivity(intent);
     };
+
+    public void openFindStores()
+    {
+        Intent intent = new Intent(this, FindNearbyStores.class);
+        startActivity(intent);
+    }
+
 }
