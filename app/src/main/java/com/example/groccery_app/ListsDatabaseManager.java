@@ -124,6 +124,8 @@ public class ListsDatabaseManager
     // Deleting single item
     public void deleteTask(ListItem listItem) {
 
+        openw();
+
         database.delete(TABLE_LIST_ITEMS, KEY_ID + " = ?",
                 new String[] { String.valueOf(listItem.getID()) });
         database.close();

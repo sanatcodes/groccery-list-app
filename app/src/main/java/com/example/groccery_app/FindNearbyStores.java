@@ -30,8 +30,8 @@ public class FindNearbyStores extends AppCompatActivity implements LocationListe
     private long minTime = 500;
     private float minDistance = 1;
     private static final int MY_PERMISSION_GPS = 1;
-    long latitude;
-    long longitude;
+    float latitude;
+    float longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +90,8 @@ public class FindNearbyStores extends AppCompatActivity implements LocationListe
 
     @Override
     public void onLocationChanged(@NonNull List<Location> locations) {
+
+        Log.d("GPSLOCATION", "LOCATION longitude:" + longitude + "Latitude"+ latitude );
 
     }
 

@@ -21,11 +21,13 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
     String data = "";
     String dataParsed = "";
     String singleParsed = "";
-    long latitude;
-    long longitude;
+    float latitude;
+    float longitude;
+    double testLat = 53.3546668;
+    double tesLong = -6.279672;
 
 
-    fetchData(long lat, long lon){
+    fetchData(float lat, float lon){
         this.latitude = lat;
         this.longitude = lon;
 
@@ -34,8 +36,8 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... voids) {
 
         try {
-            String lat;
-            URL url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=cruise&location=" + latitude + "%"+ longitude + "&radius=1500&type=restaurant&key=AIzaSyCqMBZfoHTtvFgSLAtgglyvNOSMNV8Ge1o");
+
+            URL url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=tesco%2Clidl%2CAldi&location="+ testLat +"%2C" + tesLong + "&radius=1500&type=superstore&key=AIzaSyCqMBZfoHTtvFgSLAtgglyvNOSMNV8Ge1o");
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
@@ -45,10 +47,12 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
                 line = bufferedReader.readLine();
                 data = data + line;
             }
-            JSONArray JA = new JSONArray(data);
+            JSONObject obj = new JSONObject(data);
+            JSONArray JA = obj.getJSONArray("results");
+
             for(int i=0; i < 5;i++){
                 JSONObject JO = (JSONObject) JA.getJSONObject(i);
-                singleParsed = "Name" + JO.getJSONObject("name") + "\n";
+                singleParsed = "Name:  " + JO.getString("name") + "\n";
 //                                "Address" + JO.get("vicinity")+ "\n";
                 Log.d("data", singleParsed);
                 dataParsed = dataParsed + singleParsed + "\n";
