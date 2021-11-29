@@ -23,12 +23,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private LayoutInflater inflater;
     private Activity context;
     int gPosition = -1;
-    ListsDatabaseManager db = new ListsDatabaseManager(context);
+//    ListsDatabaseManager db = new ListsDatabaseManager(context);
 
     public Adapter(Activity ctx, List<ListItem> lists) {
         this.lists = lists;
         this.inflater = LayoutInflater.from(ctx);
-        this.context = ctx;
     }
 
     @NonNull
@@ -40,7 +39,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        gPosition = holder.getPosition();
+//        gPosition = holder.getPosition();
         String title = lists.get(position).get_name();
         String status = lists.get(position).get_bought();
         holder.nTitle.setText(title);
@@ -60,7 +59,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 //        showUndoSnackbar();
         //delete list item at this position
         ListItem itemToBeDeleted = lists.get(position);
-        db.deleteTask(itemToBeDeleted);
+//        db.deleteTask(itemToBeDeleted);
 
     }
 
@@ -74,14 +73,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             nTitle = itemView.findViewById(R.id.List_name);
 //            nStatus = itemView.findViewById(R.id.checkBox);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent i = new Intent(v.getContext(),Detail.class);
-//                    i.putExtra("ID",lists.get(getAdapterPosition()).getID());
-//                    v.getContext().startActivity(i);
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(v.getContext(),Detail.class);
+                    i.putExtra("ID",lists.get(getAdapterPosition()).getID());
+                    v.getContext().startActivity(i);
+                }
+            });
 
         }
 
