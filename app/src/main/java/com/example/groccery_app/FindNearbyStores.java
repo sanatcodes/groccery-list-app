@@ -32,6 +32,8 @@ public class FindNearbyStores extends AppCompatActivity implements LocationListe
     private static final int MY_PERMISSION_GPS = 1;
     float latitude;
     float longitude;
+    double lat = 53.3546668;
+    double lon = -6.279672;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class FindNearbyStores extends AppCompatActivity implements LocationListe
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 fetchData process = new fetchData(latitude,longitude);
+                 fetchData process = new fetchData(lat,lon);
                  process.execute();
             }
         });

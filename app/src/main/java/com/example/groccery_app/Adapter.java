@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private LayoutInflater inflater;
     private Activity context;
     int gPosition = -1;
-//    ListsDatabaseManager db = new ListsDatabaseManager(context);
+    ListsDatabaseManager db = new ListsDatabaseManager(context);
 
     public Adapter(Activity ctx, List<ListItem> lists) {
         this.lists = lists;
@@ -58,8 +59,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 //        notifyItemRemoved(position);
 //        showUndoSnackbar();
         //delete list item at this position
-        ListItem itemToBeDeleted = lists.get(position);
-//        db.deleteTask(itemToBeDeleted);
+        //ListItem itemToBeDeleted = lists.get(position);
+        Log.d("id123 ", String.valueOf(lists.size()));
+        for(int i = 0; i < lists.size(); i++)
+        {
+            ListItem test = lists.get(i);
+            Log.d("id123 ", String.valueOf(test.getID()));
+        }
+        //db.deleteTask(itemToBeDeleted);
 
     }
 

@@ -23,13 +23,13 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
     String singleParsed = "";
     float latitude;
     float longitude;
-    double testLat = 53.3546668;
-    double tesLong = -6.279672;
+    double testLat;
+    double tesLong;
 
 
-    fetchData(float lat, float lon){
-        this.latitude = lat;
-        this.longitude = lon;
+    fetchData(double lat, double lon){
+        this.testLat = lat;
+        this.tesLong = lon;
 
     }
     @Override
@@ -54,7 +54,7 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
                 JSONObject JO = (JSONObject) JA.getJSONObject(i);
                 singleParsed = "Name:  " + JO.getString("name") + "\n";
 //                                "Address" + JO.get("vicinity")+ "\n";
-                Log.d("data", singleParsed);
+                Log.d("location_data", singleParsed);
                 dataParsed = dataParsed + singleParsed + "\n";
 
             }
@@ -74,6 +74,7 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(unused);
 
         FindNearbyStores.storeList.setText(dataParsed);
+
 
     }
 }

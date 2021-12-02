@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -68,8 +70,10 @@ public class addItem extends AppCompatActivity {
                 long id = sDB.addListItem(product);
 //                ListItem check = sDB.addListItem(id);
 //                Log.d("inserted", "List Item: "+ id + " -> Title:" + check.get_name()+" Bought Status: "+ check.get_bought());
-                onBackPressed();
+//                onBackPressed();
 
+                setResult(Activity.RESULT_OK, new Intent());
+                finish();
                 Toast.makeText(this, "Item Saved.", Toast.LENGTH_SHORT).show();
             }else {
                 itemName.setError("Title Can not be Blank.");

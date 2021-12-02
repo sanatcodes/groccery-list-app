@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import static com.example.groccery_app.ListsDatabaseHelper.TABLE_LIST_ITEMS;
 import static com.example.groccery_app.ListsDatabaseHelper.KEY_ID;
@@ -125,10 +126,11 @@ public class ListsDatabaseManager
     public void deleteTask(ListItem listItem) {
 
         openw();
-
-        database.delete(TABLE_LIST_ITEMS, KEY_ID + " = ?",
-                new String[] { String.valueOf(listItem.getID()) });
-        database.close();
+//
+//        database.delete(TABLE_LIST_ITEMS, KEY_ID + " = ?",
+//                new String[] { String.valueOf(listItem.getID()) });
+        Log.d("list Item",String.valueOf((listItem.getID())));
+//        database.close();
     }
 
     // Getting item Count
