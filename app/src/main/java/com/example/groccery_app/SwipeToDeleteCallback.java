@@ -12,6 +12,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
     public SwipeToDeleteCallback(Adapter adapter){
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+        Log.d("check addapter","adapter working");
         mAdapter = adapter;
     }
 

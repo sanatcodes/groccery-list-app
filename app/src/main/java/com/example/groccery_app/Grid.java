@@ -65,11 +65,12 @@ public class Grid extends AppCompatActivity {
 
     private void displayList(List<ListItem> allitems) {
 
+        adapter = new Adapter(this, allitems );
         dataList.setAdapter(adapter);
         dataList.setLayoutManager(new LinearLayoutManager(this));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
         itemTouchHelper.attachToRecyclerView(dataList);
-        adapter = new Adapter(this, allitems );
+
 
 
     }
