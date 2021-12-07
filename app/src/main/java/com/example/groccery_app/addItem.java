@@ -20,6 +20,8 @@ import java.util.List;
 
 public class addItem extends AppCompatActivity {
 
+    //Code Refferene: https://www.youtube.com/watch?v=3b5xxb8w7lI
+
     Toolbar toolbar;
     EditText itemName;
 

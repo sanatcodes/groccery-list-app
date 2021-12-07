@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+//Code Refference: https://www.youtube.com/watch?v=sOJRJtM_iu0
+
 public class LoginScreen extends AppCompatActivity {
 
     Button findStoresBtn;
